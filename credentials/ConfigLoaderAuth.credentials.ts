@@ -1,13 +1,11 @@
 /* eslint-disable n8n-nodes-base/cred-class-field-name-unsuffixed */
 /* eslint-disable n8n-nodes-base/cred-class-name-unsuffixed */
-import type { ICredentialType, INodeProperties, Icon } from "n8n-workflow";
+import type { ICredentialType, INodeProperties } from "n8n-workflow";
 
 export class ConfigLoaderAuth implements ICredentialType {
   name = "configLoaderAuth";
   displayName = "Config Loader Auth";
   documentationUrl = "https://docs.n8n.io/nodes/n8n-nodes-base.httpRequest/";
-  genericAuth = true;
-  icon: Icon = "node:n8n-nodes-base.httpRequest";
   properties: INodeProperties[] = [
     {
       displayName: "Configuration JSON",
