@@ -1,0 +1,18 @@
+{
+	"node": "n8n-nodes-config-loader",
+	"nodeVersion": "1.0",
+	"codexVersion": "1.0",
+	"categories": ["Developer Tools", "Configuration"],
+	"resources": {
+		"credentialDocumentation": [
+			{
+				"url": "https://github.com/vgdss/n8n-nodes-config-loader#credentials"
+			}
+		],
+		"primaryDocumentation": [
+			{
+				"url": "https://github.com/vgdss/n8n-nodes-config-loader#readme"
+			}
+		]
+	}
+}

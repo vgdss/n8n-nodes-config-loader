@@ -1,46 +1,105 @@
-![Banner image](https://user-images.githubusercontent.com/10284570/173569848-c624317f-42b1-45a6-ab09-f0ea3c247648.png)
+# n8n-nodes-config-loader
 
-# n8n-nodes-starter
+**Config Loader** is an n8n community node that lets you load arbitrary configuration or credential data from a single JSON blob (stored in credentials) and inject it directly into your workflow’s data. This makes it easy to centralize environment-specific settings, API endpoints, tokens, or other variables without hard-coding them into each node.
 
-This repo contains example nodes to help you get started building your own custom integrations for [n8n](n8n.io). It includes the node linter and other dependencies.
+[n8n](https://n8n.io/) is a [fair-code licensed](https://docs.n8n.io/reference/license/) workflow automation platform.
 
-To make your custom node available to the community, you must create it as an npm package, and [submit it to the npm registry](https://docs.npmjs.com/packages-and-modules/contributing-packages-to-the-registry).
+---
 
-## Prerequisites
+## Installation
 
-You need the following installed on your development machine:
+Follow the [installation guide](https://docs.n8n.io/integrations/community-nodes/installation/) in the n8n community nodes documentation to install this node in your n8n instance.
 
-* [git](https://git-scm.com/downloads)
-* Node.js and pnpm. Minimum version Node 20. You can find instructions on how to install both using nvm (Node Version Manager) for Linux, Mac, and WSL [here](https://github.com/nvm-sh/nvm). For Windows users, refer to Microsoft's guide to [Install NodeJS on Windows](https://docs.microsoft.com/en-us/windows/dev-environment/javascript/nodejs-on-windows).
-* Install n8n with:
-  ```
-  npm install n8n -g
-  ```
-* Recommended: follow n8n's guide to [set up your development environment](https://docs.n8n.io/integrations/creating-nodes/build/node-development-environment/).
+---
 
-## Using this starter
+### What It Does
 
-These are the basic steps for working with the starter. For detailed guidance on creating and publishing nodes, refer to the [documentation](https://docs.n8n.io/integrations/creating-nodes/).
+* Reads a JSON object from the **Config Loader Auth** credential.
+* Safely parses the JSON.
+* Merges all properties from the JSON into the current item’s `json` at the root level.
 
-1. [Generate a new repository](https://github.com/n8n-io/n8n-nodes-starter/generate) from this template repository.
-2. Clone your new repo:
+This allows you to keep all of your configuration (URLs, keys, IDs, feature flags, etc.) in one place, then use built-in n8n filters or expressions elsewhere in your workflow to pick out exactly what you need.
+
+---
+
+## Credentials: Config Loader Auth
+
+Before using the node, you must create the **Config Loader Auth** credential:
+
+1. In n8n, go to **Credentials** → **New Credential** → **Config Loader Auth**.
+2. In the **Configuration JSON** field, paste a valid JSON object. For example:
+
+   ```json
+   {
+     "serviceA": {
+       "host": "https://api.servicea.com",
+       "apiKey": "YOUR_API_KEY"
+     },
+     "serviceB": [
+       {
+         "id": "dev",
+         "endpoint": "dev.example.com",
+         "token": "DEV_TOKEN"
+       },
+       {
+         "id": "prod",
+         "endpoint": "api.example.com",
+         "token": "PROD_TOKEN"
+       }
+     ],
+     "featureFlagX": true,
+     "timeout": 30
+   }
    ```
-   git clone https://github.com/<your organization>/<your-repo-name>.git
-   ```
-3. Run `npm i` to install dependencies.
-4. Open the project in your editor.
-5. Browse the examples in `/nodes` and `/credentials`. Modify the examples, or replace them with your own nodes.
-6. Update the `package.json` to match your details.
-7. Run `npm lint` to check for errors or `npm lintfix` to automatically fix errors when possible.
-8. Test your node locally. Refer to [Run your node locally](https://docs.n8n.io/integrations/creating-nodes/test/run-node-locally/) for guidance.
-9. Replace this README with documentation for your node. Use the [README_TEMPLATE](README_TEMPLATE.md) to get started.
-10. Update the LICENSE file to use your details.
-11. [Publish](https://docs.npmjs.com/packages-and-modules/contributing-packages-to-the-registry) your package to npm.
 
-## More information
+---
 
-Refer to our [documentation on creating nodes](https://docs.n8n.io/integrations/creating-nodes/) for detailed information on building your own nodes.
+## Usage
 
-## License
+1. **Drag** the **Config Loader** node into your workflow.
 
-[MIT](https://github.com/n8n-io/n8n-nodes-starter/blob/master/LICENSE.md)
+2. **Select** the **Config Loader Auth** credential you configured.
+
+3. **Connect** it to the rest of your workflow.
+
+4. **Run** the workflow. All keys and values from your JSON will be available at the root of each item under `{{$json}}`.
+
+5. **Filter** or **extract** the specific values you need using n8n’s existing **Split Out**, **Filter**, **IF**, or **Function** nodes.
+
+---
+
+## Examples
+
+* 🔑 **Inject API Credentials**
+  Store all your API endpoints, keys, and secrets in one JSON blob. Use **Config Loader** at the start of your workflow to inject, then pass specific values into HTTP Request nodes.
+
+* 🛠️ **Feature Flags**
+  Toggle features on or off by storing boolean flags in the JSON. Combine with an **IF** node to control branching logic without editing each node.
+
+---
+
+## Compatibility
+
+Tested with n8n **v1.91.3** and above. Should work with any later versions, but please report issues if you encounter problems on significantly newer releases.
+
+---
+
+## Resources
+
+* Node repository: [https://github.com/vgdss/n8n-nodes-config-loader](https://github.com/vgdss/n8n-nodes-config-loader)
+* Community nodes installation guide: [https://docs.n8n.io/integrations/community-nodes/installation/](https://docs.n8n.io/integrations/community-nodes/installation/)
+* n8n expressions & parameter documentation: [https://docs.n8n.io/nodes/expressions/](https://docs.n8n.io/nodes/expressions/)
+
+---
+
+## Version History
+
+* **1.0.0**
+
+  * Initial release
+  * Config Loader Auth credential
+  * Config Loader node that injects JSON data at root level
+
+---
+
+*Feel free to open issues or submit PRs to enhance the node!*
