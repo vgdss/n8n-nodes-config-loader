@@ -1,3 +1,5 @@
+/* eslint-disable n8n-nodes-base/node-class-description-credentials-name-unsuffixed */
+
 import {
   IExecuteFunctions,
   INodeExecutionData,
