@@ -33,10 +33,10 @@
   "n8n": {
     "n8nNodesApiVersion": 1,
     "credentials": [
-      "dist/credentials/ConfigLoaderAuth.credentials.ts"
+      "dist/credentials/ConfigLoaderAuth.credentials.js"
     ],
     "nodes": [
-      "dist/nodes/ConfigLoader/ConfigLoader.node.ts"
+      "dist/nodes/ConfigLoader/ConfigLoader.node.js"
     ]
   },
   "devDependencies": {
