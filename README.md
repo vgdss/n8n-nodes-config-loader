@@ -94,7 +94,7 @@ Tested with n8n **v1.91.3** and above. Should work with any later versions, but 
 
 ## Version History
 
-* **0.1.0**
+* **0.1.1**
 
   * Initial release
   * Config Loader Auth credential
