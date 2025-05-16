@@ -34,23 +34,12 @@ export class ConfigLoader implements INodeType {
   };
 
   async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
-    const items = this.getInputData();
+    const auth = await this.getCredentials("configLoaderAuth", 0);
+    const allVars = jsonParse<Record<string, any>>(
+      (auth.json as string) || "{}",
+      { errorMessage: "Invalid Config Loader JSON" }
+    );
 
-    for (let i = 0; i < items.length; i++) {
-      // Load the JSON credential
-      const auth = await this.getCredentials("configLoaderAuth", i);
-      const allVars = jsonParse<Record<string, any>>(
-        (auth.json as string) || "{}",
-        { errorMessage: "Invalid Config Loader JSON" }
-      );
-
-      // Inject variables at the root level of the item JSON
-      items[i].json = {
-        ...items[i].json,
-        ...allVars,
-      };
-    }
-
-    return [items];
+    return [ this.helpers.returnJsonArray(allVars) ];
   }
 }
